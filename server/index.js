@@ -11,11 +11,17 @@ import generalRoutes from "./routes/general.route.js";
 import managementRoutes from "./routes/management.route.js";
 import salesRoutes from "./routes/sales.route.js";
 
+//data import
+import User from "./models/User.model.js";
+import Product from "./models/Product.model.js";
+import ProductStat from "./models/ProductStat.js";
+import { dataUser, dataProduct, dataProductStat } from "./data/index.js";
+
 dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(helmet);
+app.use(helmet());
 app.use(
 	helmet.crossOriginResourcePolicy({
 		policy: "cross-origin",
@@ -29,7 +35,7 @@ app.use(cors());
 //client routes used for customers,transactions,products etc
 app.use("/client", clientRoutes);
 //general routes used for user,dashboard
-app.use("general", generalRoutes);
+app.use("/general", generalRoutes);
 //management routes used for admin and performance
 app.use("/management", managementRoutes);
 //sales used for overview sales,daily and monthly sales
@@ -46,6 +52,10 @@ mongoose
 		app.listen(PORT, () => {
 			console.log(`Server running on port: http://localhost:${PORT}`);
 		});
+
+		// User.insertMany(dataUser);
+		// Product.insertMany(dataProduct);
+		// ProductStat.insertMany(dataProductStat);
 	})
 	.catch((err) => {
 		console.log(err);
